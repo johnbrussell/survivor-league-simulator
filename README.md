@@ -1,0 +1,1 @@
+Monte-Carlo simulator used to determine optimal strategy in an NFL survivor league
