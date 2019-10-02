@@ -13,6 +13,8 @@ class ScheduleGenerator:
         self.num_conferences = NUM_CONFERENCES
         self.num_divisions = NUM_DIVISIONS_PER_CONFERENCE
         self.num_teams = NUM_TEAMS_PER_DIVISION
+        self.num_byes = NUM_BYES
+        self.num_weeks = NUM_WEEKS
 
     def generate_schedule(self):
         teams = self._generate_teams()
