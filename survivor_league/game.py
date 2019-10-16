@@ -1,9 +1,9 @@
 class Game:
-    def __init__(self, *, team_1, team_2):
-        self.team_1 = team_1
-        self.team_2 = team_2
+    def __init__(self, *, home_team, away_team):
+        self.home_team = home_team
+        self.away_team = away_team
 
-    def odds(self):
-        elo_diff = self.team_1.elo - self.team_2.elo
+    def home_team_win_probability(self):
+        elo_diff = self.home_team.elo - self.away_team.elo
 
-        return self.team_1.name, 1.0 / (pow(10, (-elo_diff / 400.0)) + 1)
+        return 1.0 / (pow(10, (-elo_diff / 400.0)) + 1)
