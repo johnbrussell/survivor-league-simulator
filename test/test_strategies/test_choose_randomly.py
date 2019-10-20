@@ -29,8 +29,8 @@ class TestChooseRandomly(unittest.TestCase):
             ranked_teams = subject.rank_teams(games, {})
             team_choice_count[ranked_teams[0].name] += 1
 
-        self.assertTrue(min(team_choice_count.values()) >= 15)
-        self.assertTrue(max(team_choice_count.values()) < 35)
+        self.assertTrue(min(team_choice_count.values()) >= 12)
+        self.assertTrue(max(team_choice_count.values()) < 38)
 
     def test_choice_does_not_include_ineligible_teams(self):
         num_eligible_teams = 4
