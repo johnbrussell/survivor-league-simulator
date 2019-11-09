@@ -24,3 +24,16 @@ class TestPlayer(unittest.TestCase):
         choice = subject.choose_team(games)
 
         self.assertTrue(len([t for t in teams if t.name == choice]) == 1)
+        self.assertTrue(choice in subject._teams_chosen)
+        self.assertTrue(subject.have_chosen_team(choice))
+
+    def test_eliminate(self):
+        subject = player.Player(name=0, strategy=choose_randomly.ChooseRandomly())
+
+        self.assertTrue(subject.is_alive())
+        self.assertIsNone(subject._elimination_week_num)
+
+        subject.eliminate(3)
+
+        self.assertFalse(subject.is_alive())
+        self.assertEqual(subject._elimination_week_num, 3)
