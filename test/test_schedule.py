@@ -5,13 +5,13 @@ from survivor_league import schedule, game, week
 
 class TestSchedule(unittest.TestCase):
     def test_games_for_week(self):
-        weeks = [week.Week(games=[game.Game(home_team=1, away_team=2)]),
-                 week.Week(games=[game.Game(home_team=3, away_team=4),
-                                  game.Game(home_team=5, away_team=6)])]
+        weeks = [week.Week(number=1, games=[game.Game(home_team=1, away_team=2)]),
+                 week.Week(number=2, games=[game.Game(home_team=3, away_team=4),
+                                            game.Game(home_team=5, away_team=6)])]
         subject = schedule.Schedule(weeks=weeks)
 
-        week_1 = subject.games_for_week(0)
-        week_2 = subject.games_for_week(1)
+        week_1 = subject.games_for_week(1)
+        week_2 = subject.games_for_week(2)
 
         self.assertEqual(len(week_1), 1)
         self.assertEqual(len(week_2), 2)

@@ -34,17 +34,20 @@ class ScheduleGenerator:
 
     def _generate_schedule(self, teams):
         weeks = list()
-        for _ in range(self.num_weeks):
-            weeks.append(self._generate_week(teams))
+        for week_num in range(self.num_weeks):
+            weeks.append(self._generate_week(week_num, teams))
 
         return schedule.Schedule(weeks=weeks)
 
-    def _generate_week(self, teams):
+    def _generate_week(self, week_num, teams):
         non_bye_teams = self._filter_bye_teams(teams)
 
         home_teams = non_bye_teams[:int(len(non_bye_teams)/2)]
         away_teams = non_bye_teams[int(len(non_bye_teams)/2):]
-        return week.Week(games=[game.Game(home_team=h, away_team=a) for h, a in zip(home_teams, away_teams)])
+        return week.Week(
+            number=week_num,
+            games=[game.Game(home_team=h, away_team=a) for h, a in zip(home_teams, away_teams)]
+        )
 
     def _filter_bye_teams(self, teams):
         non_bye_teams = [t for t in teams if not self._determine_bye_week()]
