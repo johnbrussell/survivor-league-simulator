@@ -6,7 +6,7 @@ from survivor_league.strategies import choose_randomly
 
 class TestPlayer(unittest.TestCase):
     def test_have_chosen_team(self):
-        subject = player.Player(strategy=None)
+        subject = player.Player(name=0, strategy=None)
 
         self.assertFalse(subject.have_chosen_team(team_name='Some random team name'))
 
@@ -15,7 +15,7 @@ class TestPlayer(unittest.TestCase):
         self.assertTrue(subject.have_chosen_team(team_name='Chosen team name'))
 
     def test_choose_team(self):
-        subject = player.Player(strategy=choose_randomly.ChooseRandomly())
+        subject = player.Player(name=0, strategy=choose_randomly.ChooseRandomly())
 
         teams = [team.Team(name=t, division=t, conference=t) for t in range(4)]
         games = [game.Game(home_team=t1, away_team=t2) for t1, t2 in zip(teams[:int(len(teams)/2)],
