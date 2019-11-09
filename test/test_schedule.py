@@ -25,3 +25,13 @@ class TestSchedule(unittest.TestCase):
         self.assertListEqual(week_1_away, [2])
         self.assertListEqual(week_2_home, [3, 5])
         self.assertListEqual(week_2_away, [4, 6])
+
+    def test_num_weeks(self):
+        weeks_1 = [1]
+        weeks_2 = [2, 3, 4, 5]
+
+        subject_1 = schedule.Schedule(weeks=weeks_1)
+        subject_2 = schedule.Schedule(weeks=weeks_2)
+
+        self.assertEqual(subject_1.num_weeks(), 1)
+        self.assertEqual(subject_2.num_weeks(), 4)

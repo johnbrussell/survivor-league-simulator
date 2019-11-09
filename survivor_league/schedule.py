@@ -4,3 +4,6 @@ class Schedule():
 
     def games_for_week(self, week_num):
         return self.weeks[week_num].games
+
+    def num_weeks(self):
+        return len(self.weeks)
