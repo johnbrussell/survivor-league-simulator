@@ -3,6 +3,11 @@ class Game:
         self.home_team = home_team
         self.away_team = away_team
 
+    def choose_winner(self, choice):
+        if choice < self.home_team_win_probability():
+            return self.home_team
+        return self.away_team
+
     def home_team_win_probability(self):
         elo_diff = self.home_team.elo - self.away_team.elo
 
