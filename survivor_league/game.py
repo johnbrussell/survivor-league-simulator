@@ -8,6 +8,11 @@ class Game:
             return self.home_team
         return self.away_team
 
+    def favored_team(self):
+        if self.home_team_win_probability() >= .5:
+            return self.home_team
+        return self.away_team
+
     def home_team_win_probability(self):
         elo_diff = self.home_team.elo - self.away_team.elo
 

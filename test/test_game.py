@@ -41,3 +41,15 @@ class TestGame(unittest.TestCase):
         winner = subject.choose_winner(1 - (subject.home_team_win_probability() / 2))
 
         self.assertTrue(winner.name == 2)
+
+    def test_favored_team(self):
+        team_1 = team.Team(name=1, elo=1300, conference=1, division=1)
+        team_2 = team.Team(name=2, elo=1400, conference=1, division=1)
+
+        subject = game.Game(home_team=team_1, away_team=team_2)
+        favored_team = subject.favored_team()
+        self.assertEqual(favored_team.name, team_2.name)
+
+        subject = game.Game(home_team=team_2, away_team=team_1)
+        favored_team = subject.favored_team()
+        self.assertEqual(favored_team.name, team_2.name)
