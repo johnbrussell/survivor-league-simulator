@@ -20,6 +20,9 @@ class Player:
         self._is_alive = False
         self._elimination_week_num = week_num
 
+    def elimination_week(self):
+        return self._elimination_week_num
+
     def have_chosen_team(self, team_name):
         return team_name in self._teams_chosen
 
@@ -27,4 +30,7 @@ class Player:
         return self._is_alive
 
     def name(self):
-        return self.name
+        return self._name
+
+    def strategy_name(self):
+        return self._strategy.name
