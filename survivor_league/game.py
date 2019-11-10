@@ -17,3 +17,8 @@ class Game:
         elo_diff = self.home_team.elo - self.away_team.elo
 
         return 1.0 / (pow(10, (-elo_diff / 400.0)) + 1)
+
+    def unfavored_team(self):
+        if self.favored_team().name == self.home_team.name:
+            return self.away_team
+        return self.home_team

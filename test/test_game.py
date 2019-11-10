@@ -53,3 +53,15 @@ class TestGame(unittest.TestCase):
         subject = game.Game(home_team=team_2, away_team=team_1)
         favored_team = subject.favored_team()
         self.assertEqual(favored_team.name, team_2.name)
+
+    def test_unfavored_team(self):
+        team_1 = team.Team(name=1, elo=1300, conference=1, division=1)
+        team_2 = team.Team(name=2, elo=1400, conference=1, division=1)
+
+        subject = game.Game(home_team=team_1, away_team=team_2)
+        favored_team = subject.unfavored_team()
+        self.assertEqual(favored_team.name, team_1.name)
+
+        subject = game.Game(home_team=team_2, away_team=team_1)
+        favored_team = subject.unfavored_team()
+        self.assertEqual(favored_team.name, team_1.name)
