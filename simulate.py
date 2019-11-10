@@ -1,7 +1,8 @@
 from survivor_league import league, schedule_generator
 
 
-NUM_SIMULATIONS = 10
+NUM_PLAYERS = 10
+NUM_SIMULATIONS = 10000
 
 
 def run_simulation():
@@ -17,17 +18,10 @@ def run_simulation():
 
     for _ in range(NUM_SIMULATIONS):
         schedule = schedule_generator.ScheduleGenerator().generate_schedule()
-        lg = league.League(schedule)
+        lg = league.League(NUM_PLAYERS, schedule)
         lg.simulate_season()
         results = lg.PLAYERS
         was_tie = len([result for result in results if result.is_alive()]) == 0
-
-        results_dict = dict()
-        for result in results:
-            results_dict[result.name()] = {
-                'strategy': result.strategy_name(),
-                'elimination_week': result.elimination_week()
-            }
 
         simulation_weeks = 0
         for result in results:
@@ -43,13 +37,13 @@ def run_simulation():
         for winner in simulation_winners:
             strategy_victory_dict[winner.strategy_name()] += 1 / len(simulation_winners)
 
-        strategy_week_count = dict()
+        strategy_player_count = dict()
         for result in results:
             if result.is_alive() or (was_tie and result.elimination_week() == simulation_weeks):
                 continue
-            if result.strategy_name() not in strategy_week_count:
-                strategy_week_count[result.strategy_name()] = 0
-            strategy_week_count[result.strategy_name()] += 1
+            if result.strategy_name() not in strategy_player_count:
+                strategy_player_count[result.strategy_name()] = 0
+            strategy_player_count[result.strategy_name()] += 1
         for result in results:
             if result.is_alive() or (was_tie and result.elimination_week() == simulation_weeks):
                 continue
@@ -59,7 +53,7 @@ def run_simulation():
                         strategy_elimination_week_dict[result.strategy_name()][week] = 0
                 strategy_elimination_week_dict[result.strategy_name()][result.elimination_week()] = 0
             strategy_elimination_week_dict[result.strategy_name()][result.elimination_week()] += \
-                1 / strategy_week_count[result.strategy_name()]
+                1 / strategy_player_count[result.strategy_name()]
 
     for k in strategy_victory_dict.keys():
         strategy_victory_dict[k] /= NUM_SIMULATIONS

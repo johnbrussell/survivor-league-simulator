@@ -4,13 +4,12 @@ from survivor_league.strategies.choose_randomly import ChooseRandomly
 from survivor_league import player
 
 
-NUM_PLAYERS = 15
 STRATEGIES = [ChooseRandomly]
 
 
 class League:
-    def __init__(self, schedule):
-        self.PLAYERS = self._generate_players()
+    def __init__(self, num_players, schedule):
+        self.PLAYERS = self._generate_players(num_players)
         self.SCHEDULE = schedule
 
     def simulate_season(self):
@@ -49,8 +48,8 @@ class League:
                 p.eliminate(week_num)
 
     @staticmethod
-    def _generate_players():
-        return [player.Player(name=p, strategy=random.choice(STRATEGIES)()) for p in range(NUM_PLAYERS)]
+    def _generate_players(num_players):
+        return [player.Player(name=p, strategy=random.choice(STRATEGIES)()) for p in range(num_players)]
 
     def _num_active_players(self):
         return len(self._active_players())

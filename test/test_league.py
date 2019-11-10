@@ -6,12 +6,12 @@ from survivor_league import league, schedule_generator
 
 class TestLeague(unittest.TestCase):
     def test__generate_players(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
-        self.assertEqual(len(subject.PLAYERS), league.NUM_PLAYERS)
+        self.assertEqual(len(subject.PLAYERS), 10)
 
     def test_simulate_season(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
         subject.simulate_season()
 
@@ -20,7 +20,7 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(subject._num_active_players(), num_still_alive)
 
     def test__simulate_week(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
         week_to_simulate = subject.SCHEDULE.weeks[0]
         games = week_to_simulate.games
 
@@ -50,7 +50,7 @@ class TestLeague(unittest.TestCase):
             self.assertEqual(len([t for t in away_teams if player.have_chosen_team(t.name)]), 1)
 
     def test__num_active_players(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
         self.assertEqual(subject._num_active_players(), len(subject.PLAYERS))
 
@@ -59,7 +59,7 @@ class TestLeague(unittest.TestCase):
         self.assertEqual(subject._num_active_players(), len(subject.PLAYERS) - 1)
 
     def test__active_players(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
         self.assertEqual(len(subject._active_players()), len(subject.PLAYERS))
 
@@ -69,7 +69,7 @@ class TestLeague(unittest.TestCase):
         self.assertFalse(subject.PLAYERS[0].name() in subject._active_players())
 
     def test__choose_teams(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
         with patch('survivor_league.player.Player.choose_team', return_value='winner'):
             choices = subject._choose_teams(subject.SCHEDULE.weeks[0].games)
@@ -79,7 +79,7 @@ class TestLeague(unittest.TestCase):
             self.assertEqual(choices[player.name()], 'winner')
 
     def test__determine_game_winners(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
         games = subject.SCHEDULE.weeks[0].games
         home_teams = [g.home_team for g in games]
 
@@ -91,7 +91,7 @@ class TestLeague(unittest.TestCase):
             self.assertTrue(t.name in winners_names)
 
     def test__eliminate_losers(self):
-        subject = league.League(schedule=schedule_generator.ScheduleGenerator().generate_schedule())
+        subject = league.League(num_players=10, schedule=schedule_generator.ScheduleGenerator().generate_schedule())
 
         choices = dict()
         for p in subject.PLAYERS:
