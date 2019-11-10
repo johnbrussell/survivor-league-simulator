@@ -1,6 +1,6 @@
 import random
 
-from survivor_league import team, game
+from survivor_league import team, game, week, schedule
 
 
 NUM_CONFERENCES = 2
@@ -33,19 +33,21 @@ class ScheduleGenerator:
         return teams
 
     def _generate_schedule(self, teams):
-        schedule = dict()
+        weeks = list()
+        for week_num in range(self.num_weeks):
+            weeks.append(self._generate_week(week_num, teams))
 
-        for week in range(self.num_weeks):
-            schedule[week] = self._generate_week(teams)
+        return schedule.Schedule(weeks=weeks)
 
-        return schedule
-
-    def _generate_week(self, teams):
+    def _generate_week(self, week_num, teams):
         non_bye_teams = self._filter_bye_teams(teams)
 
         home_teams = non_bye_teams[:int(len(non_bye_teams)/2)]
         away_teams = non_bye_teams[int(len(non_bye_teams)/2):]
-        return [game.Game(home_team=h, away_team=a) for h, a in zip(home_teams, away_teams)]
+        return week.Week(
+            number=week_num,
+            games=[game.Game(home_team=h, away_team=a) for h, a in zip(home_teams, away_teams)]
+        )
 
     def _filter_bye_teams(self, teams):
         non_bye_teams = [t for t in teams if not self._determine_bye_week()]

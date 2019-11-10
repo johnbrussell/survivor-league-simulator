@@ -27,3 +27,17 @@ class TestGame(unittest.TestCase):
         subject = game.Game(home_team=team_1, away_team=team_2)
 
         self.assertLess(subject.home_team_win_probability(), .5)
+
+    def test_choose_winner(self):
+        team_1 = team.Team(name=1, elo=1300, conference=1, division=1)
+        team_2 = team.Team(name=2, elo=1400, conference=1, division=1)
+
+        subject = game.Game(home_team=team_1, away_team=team_2)
+
+        winner = subject.choose_winner(subject.home_team_win_probability() / 2)
+
+        self.assertTrue(winner.name == 1)
+
+        winner = subject.choose_winner(1 - (subject.home_team_win_probability() / 2))
+
+        self.assertTrue(winner.name == 2)

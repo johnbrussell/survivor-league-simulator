@@ -38,8 +38,10 @@ class TestScheduleGenerator(unittest.TestCase):
     def test_generate_schedule_returns_correct_number_of_weeks_with_correct_number_of_games(self):
         subject = schedule_generator.ScheduleGenerator()
 
-        result = subject.generate_schedule()
+        result = subject.generate_schedule().weeks
 
         self.assertEqual(len(result), NUM_WEEKS)
-        for _week, games in result.items():
-            self.assertTrue(len(games) <= NUM_CONFERENCES * NUM_DIVISIONS_PER_CONFERENCE * NUM_TEAMS_PER_DIVISION / 2.0)
+        for week in result:
+            self.assertTrue(
+                len(week.games) <= NUM_CONFERENCES * NUM_DIVISIONS_PER_CONFERENCE * NUM_TEAMS_PER_DIVISION / 2.0
+            )
