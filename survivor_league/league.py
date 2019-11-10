@@ -1,10 +1,14 @@
 import random
 
 from survivor_league.strategies.choose_randomly import ChooseRandomly
+from survivor_league.strategies.randomly_choose_favored_team import RandomlyChooseFavoredTeam
 from survivor_league import player
 
 
-STRATEGIES = [ChooseRandomly]
+STRATEGIES = [
+    ChooseRandomly,
+    RandomlyChooseFavoredTeam
+]
 
 
 class League:
