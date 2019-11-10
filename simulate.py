@@ -1,8 +1,8 @@
 from survivor_league import league, schedule_generator
 
 
-NUM_PLAYERS = 10
-NUM_SIMULATIONS = 1000
+NUM_PLAYERS = 50
+NUM_SIMULATIONS = 10
 
 
 def run_simulation():
@@ -10,6 +10,7 @@ def run_simulation():
     strategy_victory_dict = dict()
     strategy_elimination_week_dict = dict()
     strategy_end_result_dict = dict()
+    strategy_cumulative_elimination_probability = dict()
     num_weeks = 0
     num_winners = 0
 
@@ -40,7 +41,7 @@ def run_simulation():
 
         for winner in simulation_winners:
             strategy_victory_dict[winner.strategy_name()] += 1 / len(simulation_winners)
-            strategy_victory_outcome_dict[winner.strategy_name()] += 1 / len(results)
+            strategy_victory_outcome_dict[winner.strategy_name()] += 1 / (len(results) - len(simulation_winners) + 1)
 
         strategy_player_count = dict()
         for result in results:
@@ -77,8 +78,14 @@ def run_simulation():
         for w in strategy_elimination_week_dict[s]:
             strategy_elimination_week_dict[s][w] /= NUM_SIMULATIONS
     for s in strategy_end_result_dict.keys():
+        if s not in strategy_cumulative_elimination_probability:
+            strategy_cumulative_elimination_probability[s] = {0: 0}
         for w in strategy_end_result_dict[s]:
             strategy_end_result_dict[s][w] /= NUM_SIMULATIONS
+            strategy_cumulative_elimination_probability[s][w] = 0
+            for wn in range(w):
+                strategy_cumulative_elimination_probability[s][w] += strategy_end_result_dict[s][wn]
+            strategy_cumulative_elimination_probability[s][w] += strategy_end_result_dict[s][w]
 
     print("Average maximum simulation week number:")
     print(num_weeks / NUM_SIMULATIONS)
@@ -93,6 +100,9 @@ def run_simulation():
         print(strategy, elimination_odds)
     print("Elimination week distribution, by strategy:")
     for strategy, elimination_odds in strategy_elimination_week_dict.items():
+        print(strategy, elimination_odds)
+    print("Cumulative elimination probability, by strategy")
+    for strategy, elimination_odds in strategy_cumulative_elimination_probability.items():
         print(strategy, elimination_odds)
 
 
