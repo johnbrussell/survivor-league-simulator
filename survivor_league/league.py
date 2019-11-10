@@ -50,7 +50,7 @@ class League:
 
     @staticmethod
     def _generate_players():
-        return [player.Player(name=p, strategy=random.choice(STRATEGIES)) for p in range(NUM_PLAYERS)]
+        return [player.Player(name=p, strategy=random.choice(STRATEGIES)()) for p in range(NUM_PLAYERS)]
 
     def _num_active_players(self):
         return len(self._active_players())
