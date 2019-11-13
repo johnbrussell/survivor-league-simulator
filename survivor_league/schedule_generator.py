@@ -28,7 +28,8 @@ class ScheduleGenerator:
         for c in range(self.num_conferences):
             for d in range(self.num_divisions):
                 for t in range(self.num_teams):
-                    teams.append(team.Team(conference=c, division=d, name=f"{c}-{d}-{t}"))
+                    teams.append(team.Team(conference=c, division=d, name=f"{c}-{d}-{t}",
+                                           elo=random.uniform(1250, 1750)))
 
         return teams
 
