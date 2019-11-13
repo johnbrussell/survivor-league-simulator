@@ -44,6 +44,10 @@ To add a new strategy to the simulation, simply take the following steps:
 
 Each `Team` is assigned an elo rating during instantiation.  Each `Game` has a `home_team` and an `away_team`, each of type `Team`, and can use the elo ratings of each `Team` to determine the relative odds of victory. 
 
+# simulate.py
+
+I have included a script called `simulate.py` at the top level of this repository that uses Monte Carlo simulation to assess the relative odds of winning in one of these simulated survivor leagues using the strategies provided. 
+
 # Future development
 
 This simulator is very much a v1.  Ideas I have for future development, as of 12 November 2019, include: 
