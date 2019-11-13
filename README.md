@@ -39,6 +39,7 @@ To add a new strategy to the simulation, simply take the following steps:
 1. ensure that this new class has a public `name` attribute. 
 1. ensure that this new class has a public `rank_teams` method that takes two arguments, `games` and `ineligible_teams`. `games` is a list of `Game`s; `ineligible_teams` is a list of `Team`s.  This method must return a list of `Team`s such that each element of the list is one of the `Team`s in one of the `Game`s in `games` and such that each element of the list is not in `ineligible_teams`.  The teams must be sorted from best to worst, as a `Player` utilizing the strategy will choose the first element of the list as their pick for a given week. 
 1. ensure that the new class is well tested. 
+1. add the new strategy to the `STRATEGIES` list in `survivor_league.league` so that it can be assigned to `Player`s.
 
 # Teams and Games
 
