@@ -2,7 +2,7 @@ from survivor_league import league, schedule_generator
 
 
 NUM_PLAYERS = 50
-NUM_SIMULATIONS = 10
+NUM_SIMULATIONS = 1000
 
 
 def run_simulation():
