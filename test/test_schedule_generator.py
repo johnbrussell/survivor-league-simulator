@@ -45,3 +45,42 @@ class TestScheduleGenerator(unittest.TestCase):
             self.assertTrue(
                 len(week.games) <= NUM_CONFERENCES * NUM_DIVISIONS_PER_CONFERENCE * NUM_TEAMS_PER_DIVISION / 2.0
             )
+
+    def test_assign_games_randomly(self):
+        subject = schedule_generator.ScheduleGenerator()
+        result = subject.generate_schedule().weeks
+
+        first_half_weeks = result[:int(len(result) / 2)]
+        second_half_weeks = result[-int(len(result) / 2):]
+
+        # Each week, there is a greater than 1 / (num_weeks / num_other_teams) chance one team plays another
+        num_weeks = NUM_WEEKS - NUM_BYES
+        num_teams = NUM_TEAMS_PER_DIVISION * NUM_DIVISIONS_PER_CONFERENCE * NUM_CONFERENCES
+        expected_games = (num_weeks - 1) / (num_teams - 1) / 2 + 1
+        max_allowable_games = expected_games + 1
+
+        num_successes = 0
+        num_failures = 0
+
+        for early_week in first_half_weeks:
+            for game in early_week.games:
+                t1 = game.home_team
+                t2 = game.away_team
+
+                times_played = 1
+
+                for late_week in second_half_weeks:
+                    for late_game in late_week.games:
+                        if late_game.home_team in {t1, t2} and late_game.away_team in {t1, t2}:
+                            times_played += 1
+
+                    if times_played < max_allowable_games:
+                        num_successes += 1
+                    else:
+                        num_failures += 1
+
+        minimum_valid_ratio = 900 / 25
+        if num_failures == 0:
+            num_successes += minimum_valid_ratio
+            num_failures += 1
+        self.assertTrue(num_successes / num_failures > minimum_valid_ratio)
