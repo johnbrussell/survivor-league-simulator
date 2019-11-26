@@ -11,6 +11,7 @@ def run_simulation():
     strategy_elimination_week_dict = dict()
     strategy_end_result_dict = dict()
     strategy_cumulative_elimination_probability = dict()
+    strategy_average_winnings_dict = dict()
     num_weeks = 0
     num_winners = 0
 
@@ -20,6 +21,7 @@ def run_simulation():
         strategy_victory_dict[strategy_name] = 0
         strategy_elimination_week_dict[strategy_name] = dict()
         strategy_end_result_dict[strategy_name] = dict()
+        strategy_average_winnings_dict[strategy_name] = 0
 
     for _ in range(NUM_SIMULATIONS):
         schedule = schedule_generator.ScheduleGenerator().generate_schedule()
@@ -42,6 +44,7 @@ def run_simulation():
         for winner in simulation_winners:
             strategy_victory_dict[winner.strategy_name()] += 1 / len(simulation_winners)
             strategy_victory_outcome_dict[winner.strategy_name()] += 1 / (len(results) - len(simulation_winners) + 1)
+            strategy_average_winnings_dict[winner.strategy_name()] += 1
 
         strategy_player_count = dict()
         for result in results:
@@ -86,6 +89,10 @@ def run_simulation():
             for wn in range(w):
                 strategy_cumulative_elimination_probability[s][w] += strategy_end_result_dict[s][wn]
             strategy_cumulative_elimination_probability[s][w] += strategy_end_result_dict[s][w]
+    for s in league.STRATEGIES:
+        strategy_name = s().name
+        strategy_average_winnings_dict[strategy_name] = strategy_victory_dict[strategy_name] / \
+            strategy_average_winnings_dict[strategy_name] * NUM_SIMULATIONS
 
     print("Average maximum simulation week number:")
     print(num_weeks / NUM_SIMULATIONS)
@@ -104,6 +111,9 @@ def run_simulation():
     print("Cumulative elimination probability, by strategy")
     for strategy, elimination_odds in strategy_cumulative_elimination_probability.items():
         print(strategy, elimination_odds)
+    print("Average player winnings, by strategy")
+    for strategy, average_winnings in strategy_average_winnings_dict.items():
+        print(strategy, average_winnings)
 
 
 if __name__ == "__main__":
