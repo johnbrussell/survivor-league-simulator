@@ -41,6 +41,7 @@ class ScheduleGenerator:
         return schedule.Schedule(weeks=weeks)
 
     def _generate_week(self, week_num, teams):
+        random.shuffle(teams)
         non_bye_teams = self._filter_bye_teams(teams)
 
         home_teams = non_bye_teams[:int(len(non_bye_teams)/2)]
@@ -53,7 +54,6 @@ class ScheduleGenerator:
     def _filter_bye_teams(self, teams):
         non_bye_teams = [t for t in teams if not self._determine_bye_week()]
         if len(non_bye_teams) % 2 != 0:
-            random.shuffle(non_bye_teams)
             non_bye_teams = non_bye_teams[1:]
         return non_bye_teams
 
