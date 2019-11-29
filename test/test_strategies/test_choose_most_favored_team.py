@@ -10,7 +10,7 @@ class TestChooseMostFavoredTeam(unittest.TestCase):
 
         team_1 = team.Team(name=1, conference=1, division=1, elo=1100)
         team_2 = team.Team(name=2, conference=2, division=2, elo=1200)
-        team_3 = team.Team(name=3, conference=3, division=3, elo=1300)
+        team_3 = team.Team(name=3, conference=3, division=3, elo=1350)
         team_4 = team.Team(name=4, conference=4, division=4, elo=1400)
         teams = [team_1, team_2, team_3, team_4]
         home_teams = teams[:int((len(teams)/2))]
@@ -19,7 +19,7 @@ class TestChooseMostFavoredTeam(unittest.TestCase):
 
         ranked_teams = subject.rank_teams(games, [])
 
-        self.assertListEqual(ranked_teams, [team_4, team_3, team_2, team_1])
+        self.assertListEqual(ranked_teams, [team_3, team_4, team_2, team_1])
 
     def test_ignore_ineligible_teams(self):
         subject = choose_most_favored_team.ChooseMostFavoredTeam()
