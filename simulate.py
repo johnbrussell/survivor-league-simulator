@@ -92,7 +92,12 @@ def run_simulation():
     for s in league.STRATEGIES:
         strategy_name = s().name
         strategy_average_winnings_dict[strategy_name] = strategy_victory_dict[strategy_name] / \
-            strategy_average_winnings_dict[strategy_name] * NUM_SIMULATIONS
+            strategy_average_winnings_dict[strategy_name] * NUM_SIMULATIONS * \
+            strategy_victory_outcome_dict[strategy_name]
+    scale = 1 / sum([v for v in strategy_average_winnings_dict.values()])
+    for s in league.STRATEGIES:
+        strategy_name = s().name
+        strategy_average_winnings_dict[strategy_name] *= scale
 
     print("Average maximum simulation week number:")
     print(num_weeks / NUM_SIMULATIONS)
@@ -112,8 +117,7 @@ def run_simulation():
     for strategy, elimination_odds in strategy_cumulative_elimination_probability.items():
         print(strategy, elimination_odds)
     print("Average player winnings, by strategy")
-    for strategy, average_winnings in strategy_average_winnings_dict.items():
-        print(strategy, average_winnings)
+    print(strategy_average_winnings_dict)
 
 
 if __name__ == "__main__":
